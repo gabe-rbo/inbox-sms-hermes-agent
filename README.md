@@ -127,19 +127,18 @@ stale credential in Docker's config makes an anonymous public pull fail.
 `plow_chat connected`. If the credential file is wrong the container blocks on
 purpose rather than starting half-configured.
 
-**Nothing shows up on the Agent Index** — the reporter runs hourly, not on boot.
+**Nothing shows up on the Agent Index** — the reporter runs every 5 minutes, not on boot.
 `docker compose logs agent | grep agent-index` tells you what it did.
 
 ## The Agent Index
 
-This image ships the AI Worth Using usage reporter as a supervised service. It
-registers once and reports token counts hourly, and it reports **nothing else** —
+The Plow base image ships the AI Worth Using usage reporter as a supervised
+service; this repo carries no copy of it. It
+registers once and reports token counts every 5 minutes, and it reports **nothing else** —
 no prompts, no message text, no file paths. The `AGENT_ID` in `compose.yml` is
 what it reports under.
 
-There is no switch to turn it off. An agent whose owner doesn't want that is one
-built without the service — delete `image/s6-overlay/s6-rc.d/agent-index/` and
-rebuild.
+There is no switch to turn it off.
 
 ## License
 
