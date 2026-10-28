@@ -51,7 +51,8 @@ def main(argv=None):
 
     host = need("SMTP_HOST", os.environ.get("IMAP_HOST", "").replace("imap.", "smtp."))
     port = int(os.environ.get("SMTP_PORT") or 587)
-    password = need("SMTP_PASSWORD", os.environ.get("IMAP_PASSWORD"))
+    # Sem fallback: SMTP_PASSWORD nunca vem do IMAP_PASSWORD (README: "physically cannot send").
+    password = need("SMTP_PASSWORD")
     try:
         with smtplib.SMTP(host, port, timeout=30) as server:
             server.starttls(context=ssl.create_default_context())
